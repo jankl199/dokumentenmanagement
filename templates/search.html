@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Suche{% endblock %}
+{% block content %}
+<h2>Dokumentensuche</h2>
+<form action="{{ url_for('search') }}" method="get">
+    <input type="text" name="query" placeholder="Suchbegriff eingeben" required>
+    <button type="submit">Suchen</button>
+</form>
+{% if results is defined %}
+<h3>Suchergebnisse für "{{ request.args.get('query') }}"</h3>
+<ul>
+    {% for result in results %}
+    <li>
+        <strong>Dokument ID:</strong> {{ result.id }}<br>
+        <strong>Auszug:</strong> {{ result.text[:200] }}...
+    </li>
+    {% endfor %}
+    {% if results|length == 0 %}
+    <p>Keine Treffer gefunden.</p>
+    {% endif %}
+</ul>
+{% endif %}
+{% endblock %}
